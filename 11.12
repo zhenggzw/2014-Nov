@@ -1,0 +1,88 @@
+//**************
+function checkIMEI(imei) {
+//if(f.Check_imei[1].checked){return true;}
+if (imei==null) {return false;}
+var tmp= imei.replace(/[^\d]/g,'');
+var IMEIsum = 0;
+var digit1 = 0;
+var digit2 = 0;
+
+if (tmp.length!=15){return false;}
+
+for (i=0;i<=14;i++) {
+digit1=parseInt(tmp.substr(i,1));
+
+if (i==0 || i==2 || i ==4 || i==6 || i==8 || i==10 || i==12 || i==14)
+{
+        IMEIsum=IMEIsum+digit1;
+}
+if (i==1 || i==3 || i ==5 || i==7 || i==9 || i==11 || i==13)
+{
+        digit2 = digit1 * 2;
+        if (digit2 >= 10) 
+                IMEIsum=IMEIsum+1+digit2-10;
+        else
+                IMEIsum=IMEIsum+digit2;
+    
+}
+}
+if (IMEIsum<=0){ return false;}
+if (IMEIsum % 10 != 0 ){
+    return false;
+  }  else 
+   {return true;}
+}
+
+//************************
+
+function   checkDate(dateString)   {   
+ // format   yyyy/mm/dd     
+   //    var reg = /^\d{4}\/((0{0,1}[1-9]{1})|(1[0-2]{1}))\/((0{0,1}[1-9]{1})|([1-2]{1}[0-9]{1})|(3[0-1]{1}))$/;
+       var reg = /^((0{0,1}[1-9]{1})|([1-2]{1}[0-9]{1})|(3[0-1]{1}))\/((0{0,1}[1-9]{1})|(1[0-2]{1}))\/2{1}\d{3}$/;  // dd/mm/yyyy
+        var result=true;
+      if(!reg.test(dateString) ){
+         result = false;
+       }     
+    return result;
+    }
+
+
+//*************************
+
+@SetField("LastModified"; @Now);
+
+FIELD ModifiedDate:=@Text(@Year(@Now))+"-"+@If(@Month(@Now)<10; "0"; "")+@Text(@Month(@Now))+"-"+@If(@Day(@Now)<10; "0"; "")+@Text(@Day(@Now));
+
+@If(Last_Action="Clear"; @Command([ToolsRunMacro]; "ClearAttachForm"); "");
+@If(Last_Action="Attach"; @Command([ToolsRunMacro]; "CreateAttachForm"); "");
+@If(Last_Action="Copy Form"; @Command([ToolsRunMacro]; "CopyForm"); "");
+@If(Status="New Request"; @SetField("Status"; "Pending Request"); "");
+
+@If(@IsMember(Last_Action; "Save":"Submit") & (IsAttached!="Yes") & (!@IsAvailable($Conflict)) & (Form_Na="FI4003");  @Command([ToolsRunMacro]; "Gen_VAS_FI4003"); "");
+
+//**************************
+
+
+
+BO := @DbLookup("":"NoCache"; "":"eWorkflow.nsf"; "RolesInfo"; "BackOffice"; "MemberStaffs");
+"CN=Lotus Admininstrator/O=CTM":@If(@IsError(BO); ""; BO)
+
+Shop := @DbLookup("":"NoCache"; "":"HRData.nsf"; "EmployeeByActivity"; Active_id; "EmployeeNotesUser");
+"CN=Lotus Admininstrator/O=CTM":@If(@IsError(Shop); ""; Shop)
+
+SAAS:= @DbLookup("":"NoCache"; "":"eWorkflow.nsf"; "RolesInfo"; "SaaS_IT"; "MemberStaffs");
+"CN=Lotus Admininstrator/O=CTM":@If(@IsError(SAAS); ""; SAAS)
+
+currentuser := @DbLookup("":"NoCache"; "":"HRData.nsf"; "EmployeeLookup"; @UserName; 3);
+@If(@IsError(currentuser); ""; currentuser)
+
+
+@Text(@DocumentUniqueID)
+//***********************************
+
+
+
+
+
+
+
