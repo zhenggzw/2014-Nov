@@ -28,6 +28,7 @@ var index=f.Bill_Month.selectedIndex;
 f.Bill_Month1.value=f.Bill_Month.options[index].text;
 
 ----
+button add:
 
 c2 ="" ; c1 = "";
 c2:=Bill_Month1;
@@ -39,4 +40,5 @@ FIELD is_modified:=is_modified;
 @If (@Contains(Cycle_Date ; (c2+c1) ) ; "" ; @SetField("is_modified" ; "T"))
 
 
+//********
 
