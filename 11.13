@@ -1,0 +1,42 @@
+//*****itemizedBills fixed
+
+B_month:
+
+@If(BillType = "1";
+(@Text(@Year(@Adjust(@Now ; 0 ; -5 ; 0 ;0;0;0))) +"/"  +@Text(@Month(@Adjust(@Now ; 0 ; -5 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -4 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -4 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -3 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -3 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -2 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -2 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -1 ; 0 ;0;0;0))) +"/"  + @Text(@Month(@Adjust(@Now ; 0 ; -1 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; 0 ; 0 ;0;0;0))) +"/"  +   @Text(@Month(@Adjust(@Now ; 0 ; 0 ; 0 ;0;0;0))));
+BillType = "3";
+(@Text(@Year(@Adjust(@Now ; 0 ; -12 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -12 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -11 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -11 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -10 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -10 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -9 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -9 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -8 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -8 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -7 ; 0 ;0;0;0))) +"/"  +  @Text(@Month(@Adjust(@Now ; 0 ; -7 ; 0 ;0;0;0)))) :
+(@Text(@Year(@Adjust(@Now ; 0 ; -6 ; 0 ;0;0;0))) +"/"  +@Text(@Month(@Adjust(@Now ; 0 ; -6 ; 0 ;0;0;0))));
+"")
+
+-----
+Bill_Month :
+Bill_Month = B_month
+
+var index=f.Bill_Month.selectedIndex;
+//alert(f.Bill_Month.options[index].text);
+f.Bill_Month1.value=f.Bill_Month.options[index].text;
+
+----
+
+c2 ="" ; c1 = "";
+c2:=Bill_Month1;
+c1:="_"+Bill_Cycle1;
+
+@If (Cycle_Date = "" ; @SetField( "Cycle_Date"  ; c2+ c1 );@Contains(Cycle_Date ; (c2+c1) ) ; ""; @SetField( "Cycle_Date"  ;  (c2+c1)  :  Cycle_Date)) ;
+
+FIELD is_modified:=is_modified;
+@If (@Contains(Cycle_Date ; (c2+c1) ) ; "" ; @SetField("is_modified" ; "T"))
+
+
+
