@@ -40,5 +40,54 @@ FIELD is_modified:=is_modified;
 @If (@Contains(Cycle_Date ; (c2+c1) ) ; "" ; @SetField("is_modified" ; "T"))
 
 
-//********
+//*******************************
+
+//****Agent 4 rpt ***************************
+
+	Dim session As NotesSession 
+	Dim db As NotesDatabase
+	Dim doc_current As NotesDocument
+	Dim view As NotesView
+	
+	Dim fileNum As Integer
+	Dim doc As NotesDocument
+	
+	
+	Set session = New NotesSession
+	Set db = session.CurrentDatabase
+	Set doc_current = session.documentcontext
+
+	Set view = db.GetView ("rptRef201300067VAS_Daily")
+	
+		Set doc = view.GetFirstDocument
+		
+	Dim FromDate As String
+	Dim toDate As String 
+  FromDate =  Today() - 1
+  fdate = Trim(Cstr(Format(Year(FromDate),"0000")) + Cstr(Format(Month(FromDate),"00")) + Cstr(Format(Day(FromDate),"00")))
+ 
+ 
+  Set doc = view.GetFirstDocument
+  
+  fileNum%=Freefile()
+  
+  Open ExportFileName$ For Output As fileNum%
+  
+  Do While Not(doc Is Nothing)
+  ......	
+  
+	Set docdate = doc.getfirstitem("LastModified")
+  	....
+  Set doc = view.GetNextDocument(doc)	
+  
+ 
+	Loop
+	Close fileNum%	
+
+
+	
+
+
+
+
 
