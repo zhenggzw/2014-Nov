@@ -80,7 +80,7 @@ currentuser := @DbLookup("":"NoCache"; "":"HRData.nsf"; "EmployeeLookup"; @UserN
 @Text(@DocumentUniqueID)
 //***********************************
 
-
+//----
 
 
 
