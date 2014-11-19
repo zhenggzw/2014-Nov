@@ -1,0 +1,27 @@
+Sub Initialize
+	Dim session As New NotesSession
+	Dim db As NotesDatabase
+	Dim doc As NotesDocument
+	
+	Set doc = session.documentcontext  'For the current document
+	Set db = session.CurrentDatabase	
+	
+	Dim FileObj As Notesitem
+	For i = 1 To 10 
+		Set FileObj = doc.GetFirstItem("$FILE")
+		If Not fileobj Is Nothing Then
+			Call FileObj.Remove()	
+		Else
+			Msgbox i 
+			Exit For
+		End If
+	Next
+	
+	doc.AttNames = ""
+	doc.deleteAttachments = ""
+	doc.deleteAttachments_list = ""
+	
+	Call doc.Save(True,True)
+	
+	
+End Sub
