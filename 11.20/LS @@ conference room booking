@@ -1,0 +1,91 @@
+Dim session As NotesSession
+Dim db As NotesDatabase
+Dim doc_current As NotesDocument
+
+Dim view As NotesView
+Dim doc As NotesDocument
+Dim item1 As notesitem
+Dim item2 As notesitem
+Dim cnt As Integer
+
+
+//---
+
+
+Sub Initialize
+	Dim session As New notessession
+	Dim db As NotesDatabase
+	Set db = session.CurrentDatabase
+	
+	Dim doctemp As NotesDocument
+	
+	Dim FromDate As String
+	Dim toDate As String 
+	
+	Dim i As Integer
+	Dim counter As Integer
+	Dim doc As NotesDocument
+	Dim doc_current As NotesDocument
+	
+	Dim startDTItem As NotesItem
+	Dim EndDTItem As NotesItem
+	
+	'Dim StartDT1 As  NotesDateTime 
+	
+	'Dim EndDT1 As   NotesDateTime  
+	
+	counter = 0
+	'FromDate =  Today()+15
+	'toDate = Today() -1
+	
+	toDate = Datenumber(2015,06,30)
+	
+	
+	'FromDate =  Today()+10
+	FromDate =Datenumber(2014,11,26)
+	
+	
+	i=0
+	Set doc_current = session.documentcontext	
+	
+	Do While ( Datenumber(Format(Year(FromDate),"0000"),Format(Month(FromDate),"00"),Format(Day(FromDate),"00")) <= Datenumber(2015,06,30) ) 
+		
+		Set doc = db.CreateDocument
+		
+		doc.Form = "frmBooking"	
+		
+		With doc
+			.BookingDate= Trim(Cstr(Format(Year(FromDate),"0000")) +"-"+ Cstr(Format(Month(FromDate),"00")) +"-"+ Cstr(Format(Day(FromDate),"00")))
+			.author="CN=Kuok Leong U/O=CTM"
+			.Subject="CRBM & LTE workshop"
+			.RoomID="1401"
+			.Start_hr="09"
+			.Start_Mi="30"
+			.End_hr="18"
+			.End_Mi="00"
+			.StartT="0930"
+			.EndT="1800"
+			.ReqNotesUser="CN=Kuok Leong U/O=CTM"
+			.srchKey="1401"+Trim(Cstr(Format(Year(FromDate),"0000")) + Cstr(Format(Month(FromDate),"00")) + Cstr(Format(Day(FromDate),"00")))
+			.Query_string="OpenForm&Seq=1&Ref=1401"
+			.Duration=510
+			.purge="N"
+			.ActionType="Save"
+			.saveoptions="1"
+			.CurrentDt=Now
+			.StartDT=Today+6+i
+			.EndDT=Today+6+i 
+		End With
+		
+		Call doc.Save(False,False)	
+		
+		
+		i=i+1		
+		FromDate=Today()+6+i	
+		
+		
+	Loop
+	Msgbox i
+	Msgbox FromDate 	
+	
+End Sub
